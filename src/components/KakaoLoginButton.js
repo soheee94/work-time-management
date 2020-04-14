@@ -15,7 +15,8 @@ export default class KakaoLoginButton extends React.Component {
   }
 
   onClick = () => {
-    const { onLoginSuccess, onLoginError } = this.props;
+    const { onClick, onLoginSuccess, onLoginError } = this.props;
+    onClick();
     if (window.Kakao) {
       window.Kakao.Auth.login({
         success: response => {
