@@ -1,11 +1,14 @@
 import React from "react";
-import KakaoLoginButton from "./components/KakaoLoginButton";
+import { Switch, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import WorkTimePage from "./pages/WorkTimePage";
 
 function App() {
   return (
-    <div>
-      <KakaoLoginButton />
-    </div>
+    <Switch>
+      <Route path="/" component={WorkTimePage} exact />
+      <Route path="/login" component={LoginPage} />
+    </Switch>
   );
 }
 
