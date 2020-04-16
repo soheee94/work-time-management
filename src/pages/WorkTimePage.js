@@ -1,16 +1,17 @@
 import React from "react";
 import WorkTimeHeaderContainer from "../containers/WorkTimeHeaderContainer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../modules/auth";
 import styled from "styled-components";
 
 function WorkTimePage({ history }) {
-  const profile = JSON.parse(sessionStorage.getItem("profile"));
+  const profile_session = JSON.parse(sessionStorage.getItem("profile"));
+  const profile_store = useSelector(state => state.auth.profile);
   const dispatch = useDispatch();
-  if (profile === null) {
+  if (profile_session === null) {
     history.push("/login");
-  } else {
-    dispatch(loginSuccess(profile));
+  } else if (!profile_store) {
+    dispatch(loginSuccess(profile_session));
   }
 
   return (
@@ -25,6 +26,9 @@ const WorkTimePageTemplate = styled.div`
   padding: 2rem;
   & > div {
     padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 `;
 
