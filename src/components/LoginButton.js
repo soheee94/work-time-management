@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import kakao_login_btn from "../assets/kakao_login_btn_large_narrow.png";
 
-export default class KakaoLoginButton extends React.Component {
+export default class LoginButton extends React.Component {
   componentDidMount() {
     const key = "081826db1080d7061413204191660bb7";
     const js = document.createElement("script");
@@ -15,11 +15,11 @@ export default class KakaoLoginButton extends React.Component {
   }
 
   onClick = () => {
-    const { onClick, onLoginSuccess, onLoginError } = this.props;
-    onClick();
+    const { onLogin, onLoginSuccess, onLoginError } = this.props;
     if (window.Kakao) {
       window.Kakao.Auth.login({
         success: response => {
+          onLogin();
           window.Kakao.API.request({
             url: `/v2/user/me`,
             success: profile => {
@@ -46,14 +46,14 @@ export default class KakaoLoginButton extends React.Component {
 
   render() {
     return (
-      <LoginButton onClick={this.onClick}>
+      <Button onClick={this.onClick}>
         <img src={kakao_login_btn} alt="카카오톡 로그인" />
-      </LoginButton>
+      </Button>
     );
   }
 }
 
-const LoginButton = styled.button`
+const Button = styled.button`
   border: none;
   outline: none;
   background: none;
