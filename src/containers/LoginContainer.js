@@ -8,9 +8,12 @@ function LoginContainer() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { loading } = useSelector(state => state.auth);
+
   const onLogin = () => dispatch(login());
+
   const onLoginSuccess = profile => {
     dispatch(loginSuccess(profile));
+    sessionStorage.setItem("profile", JSON.stringify(profile));
     history.push("/");
   };
   const onLoginError = error => {
