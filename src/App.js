@@ -1,7 +1,9 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import WorkTimePage from "./pages/WorkTimePage";
+import loadable from "@loadable/component";
+
+const LoginPage = loadable(() => import("./pages/LoginPage"));
+const WorkTimePage = loadable(() => import("./pages/WorkTimePage"));
 
 function App() {
   return (
