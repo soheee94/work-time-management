@@ -18,12 +18,12 @@ export default class LoginButton extends React.Component {
     const { onLogin, onLoginSuccess, onLoginError } = this.props;
     if (window.Kakao) {
       window.Kakao.Auth.login({
+        scope: "account_email",
         success: response => {
           onLogin();
           window.Kakao.API.request({
             url: `/v2/user/me`,
             success: profile => {
-              // const result = { response, profile };
               onLoginSuccess(profile);
             },
             fail: function(error) {
