@@ -52,7 +52,7 @@ const MonthText = styled.div`
   align-items: center;
   p {
     font-size: 2rem;
-    /* line-height: 2rem; */
+    line-height: 2rem;
   }
   & > div {
     font-size: 1.5rem;
