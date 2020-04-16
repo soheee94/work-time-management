@@ -1,9 +1,9 @@
 import React from "react";
-import LoginButton from "../components/LoginButton";
+import LoginButton from "../components/login/LoginButton";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess, loginError, login } from "../modules/auth";
 import { useHistory } from "react-router-dom";
-import LoginLoader from "../components/LoginLoader";
+import LoginLoader from "../components/login/LoginLoader";
 function LoginContainer() {
   const history = useHistory();
   const dispatch = useDispatch();

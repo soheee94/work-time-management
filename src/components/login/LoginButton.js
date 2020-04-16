@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import kakao_login_btn from "../assets/kakao_login_btn_large_narrow.png";
+import kakao_login_btn from "../../assets/kakao_login_btn_large_narrow.png";
 
 export default class LoginButton extends React.Component {
   componentDidMount() {
