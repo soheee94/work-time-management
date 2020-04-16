@@ -1,7 +1,8 @@
 import React from "react";
-import WorkTimeContainer from "../containers/WorkTimeContainer";
+import WorkTimeHeaderContainer from "../containers/WorkTimeHeaderContainer";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../modules/auth";
+import styled from "styled-components";
 
 function WorkTimePage({ history }) {
   const profile = JSON.parse(sessionStorage.getItem("profile"));
@@ -12,7 +13,19 @@ function WorkTimePage({ history }) {
     dispatch(loginSuccess(profile));
   }
 
-  return <WorkTimeContainer />;
+  return (
+    <WorkTimePageTemplate>
+      <WorkTimeHeaderContainer />
+    </WorkTimePageTemplate>
+  );
 }
+
+const WorkTimePageTemplate = styled.div`
+  width: 100%;
+  padding: 2rem;
+  & > div {
+    padding: 1rem;
+  }
+`;
 
 export default WorkTimePage;
