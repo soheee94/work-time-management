@@ -3,10 +3,11 @@ import WorkTimeHeaderContainer from "../containers/WorkTimeHeaderContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../modules/auth";
 import styled from "styled-components";
+import WorkTimeInfoContainer from "../containers/WorkTimeInfoContainer";
 
 function WorkTimePage({ history }) {
   const profile_session = JSON.parse(sessionStorage.getItem("profile"));
-  const profile_store = useSelector(state => state.auth.profile);
+  const profile_store = useSelector((state) => state.auth.profile);
   const dispatch = useDispatch();
   if (profile_session === null) {
     history.push("/login");
@@ -17,6 +18,7 @@ function WorkTimePage({ history }) {
   return (
     <WorkTimePageTemplate>
       <WorkTimeHeaderContainer />
+      <WorkTimeInfoContainer />
     </WorkTimePageTemplate>
   );
 }
@@ -25,7 +27,7 @@ const WorkTimePageTemplate = styled.div`
   width: 100%;
   padding: 2rem;
   & > div {
-    padding: 1rem;
+    padding: 1.75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
