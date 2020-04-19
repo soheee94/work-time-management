@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ScheduleSelectorControl from '../../components/schedule/ScheduleSelectorControl';
 import ScheduleSelector from '../../components/schedule/ScheduleSelector';
+import { useSelector } from 'react-redux';
 
 function ScheduleSelectorContainer() {
-  // const [state, setState] = useState({ schedule: [] });
-  // const handleChange = (newSchedule) => setState({ schedule: newSchedule });
-  // console.log(state);
+  const schedule = useSelector(state => state.schedule);
+  const { id } = useSelector(state => state.auth.profile);
   const thisYear = 2020;
   const thisMonth = 4;
   const numDates = new Date(thisYear, thisMonth, 0).getDate();
@@ -20,10 +20,14 @@ function ScheduleSelectorContainer() {
     });
   }
 
+  const thisMonthSchedule = schedule[id].filter(schedule =>
+    schedule.date.includes(`${thisYear}-${thisMonth}`)
+  );
+
   return (
     <div>
       <ScheduleSelectorControl />
-      <ScheduleSelector dates={dates} />
+      <ScheduleSelector dates={dates} schedules={thisMonthSchedule} />
     </div>
   );
 }

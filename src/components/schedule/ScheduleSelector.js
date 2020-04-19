@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import ScheduleRowDate from './ScheduleRowDate';
 import ScheduleRowTime from './ScheduleRowTime';
 
-function ScheduleSelector({ dates }) {
+function ScheduleSelector({ dates, schedules }) {
   return (
     <Wrapper>
       <Grid>
@@ -11,12 +11,22 @@ function ScheduleSelector({ dates }) {
           <ScheduleRowDate />
           <ScheduleRowTime />
         </Row>
-        {dates.map((date, index) => {
-          const { day } = date;
+        {dates.map((thisDate, index) => {
+          const { day, date } = thisDate;
+
+          const schedule = schedules.find(
+            schedule => schedule.date.split('-')[2] === date.toString()
+          );
+          const worktime = schedule ? schedule.worktime : [20, 21, 22, 23];
+          const vacationtime = schedule ? schedule.vacationtime : [24, 25];
           return (
             <Row key={index} day={day}>
-              <ScheduleRowDate thisDate={date} />
-              <ScheduleRowTime thisDate={date} />
+              <ScheduleRowDate thisDate={thisDate} />
+              <ScheduleRowTime
+                thisDate={thisDate}
+                worktime={worktime}
+                vacationtime={vacationtime}
+              />
             </Row>
           );
         })}
