@@ -1,19 +1,19 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import Checkbox from "../common/Checkbox";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import Checkbox from '../common/Checkbox';
 
-function TableControls() {
+function ScheduleSelectorControl() {
   return (
-    <TableControlsBlock>
+    <ControlBlock>
       <Checkbox date="all" />
       <Input type="time" placeholder="시작시간" />~<Input type="time" placeholder="종료시간" />
       <Button color="darkgray">일괄변경</Button>
       <Button color="lightcoral">삭제</Button>
-    </TableControlsBlock>
+    </ControlBlock>
   );
 }
 
-const TableControlsBlock = styled.div`
+const ControlBlock = styled.div`
   background: #eee;
   height: 4rem;
   display: flex;
@@ -56,7 +56,7 @@ const Button = styled.button`
   height: 2rem;
   cursor: pointer;
   margin-right: 1rem;
-  ${(props) =>
+  ${props =>
     props.color &&
     css`
       color: ${props.color};
@@ -68,4 +68,4 @@ const Button = styled.button`
     `}
 `;
 
-export default TableControls;
+export default ScheduleSelectorControl;

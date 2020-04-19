@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-function InfoTimeContent({ title, boldTitle, value, maximumValue }) {
+function ScheduleInfoContent({ title, boldTitle, value, maximumValue }) {
   return (
     <ContentBlock>
       <ContentTitle>
@@ -37,4 +37,4 @@ const ContentValue = styled.p`
   }
 `;
 
-export default InfoTimeContent;
+export default ScheduleInfoContent;

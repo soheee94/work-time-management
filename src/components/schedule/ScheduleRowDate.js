@@ -1,9 +1,9 @@
-import React from "react";
-import Checkbox from "../common/Checkbox";
-import styled, { css } from "styled-components";
-import { FaLock } from "react-icons/fa";
+import React from 'react';
+import Checkbox from '../common/Checkbox';
+import styled, { css } from 'styled-components';
+import { FaLock } from 'react-icons/fa';
 
-function DateRow({ thisDate }) {
+function ScheduleRowDate({ thisDate }) {
   if (!thisDate)
     return (
       <DateRowBlock>
@@ -21,9 +21,9 @@ function DateRow({ thisDate }) {
       <DateText day={day}>
         {date}일({day})
       </DateText>
-      <p>{totalWorkingHours === 0 ? "-" : totalWorkingHours}</p>
-      <p>{vacationHours === 0 ? "-" : vacationHours}</p>
-      <p>{day === "토" || day === "일" || <FaLock />}</p>
+      <p>{totalWorkingHours === 0 ? '-' : totalWorkingHours}</p>
+      <p>{vacationHours === 0 ? '-' : vacationHours}</p>
+      <p>{day === '토' || day === '일' || <FaLock />}</p>
     </DateRowBlock>
   );
 }
@@ -45,17 +45,17 @@ const DateRowBlock = styled.div`
 `;
 
 const DateText = styled.p`
-  ${(props) =>
-    props.day === "토" &&
+  ${props =>
+    props.day === '토' &&
     css`
       color: cornflowerblue;
     `}
 
-  ${(props) =>
-    props.day === "일" &&
+  ${props =>
+    props.day === '일' &&
     css`
       color: salmon;
     `}
 `;
 
-export default DateRow;
+export default ScheduleRowDate;

@@ -1,7 +1,7 @@
-import React from "react";
-import styled, { css } from "styled-components";
+import React from 'react';
+import styled, { css } from 'styled-components';
 
-function TimeRow({ thisDate }) {
+function ScheduleRowTime({ thisDate }) {
   if (!thisDate)
     return (
       <TimeRowBlock>
@@ -12,12 +12,12 @@ function TimeRow({ thisDate }) {
   return <TimeRowBlock>{renderTimeCell(thisDate)}</TimeRowBlock>;
 }
 
-const renderTimeCell = (thisDate) => {
+const renderTimeCell = thisDate => {
   const { day } = thisDate;
   const cells = [];
   for (let index = 0; index < 48; index++) {
     const disabled =
-      (index >= 0 && index < 12) || (index >= 44 && index <= 48) || day === "토" || day === "일";
+      (index >= 0 && index < 12) || (index >= 44 && index <= 48) || day === '토' || day === '일';
     cells.push(
       <TimeCellWrapper index={index} key={index} disabled={disabled}>
         <TimeCell selected={true} />
@@ -33,7 +33,7 @@ const TimeDelimitedColorBlock = styled.div`
   text-align: center;
   align-self: center;
   margin-left: 1rem;
-  ${(props) =>
+  ${props =>
     props.color &&
     css`
       background: ${props.color};
@@ -55,7 +55,7 @@ const TimeCell = styled.div`
   width: 100%;
   height: 50%;
 
-  ${(props) =>
+  ${props =>
     props.selected &&
     css`
       /* background: cornflowerblue; */
@@ -78,17 +78,17 @@ const TimeCellWrapper = styled.div`
       border-left: 1px solid lightgray;
     }
   }
-  ${(props) =>
+  ${props =>
     props.index % 2 === 0 &&
     css`
      border-left: 1px solid lightgray;
       &:before {
-        content: '${(props) => props.index / 2}';
+        content: '${props => props.index / 2}';
         height : 50%;
       }
     `}
 
-  ${(props) =>
+  ${props =>
     props.disabled &&
     css`
       color: #ddd;
@@ -106,4 +106,4 @@ const TimeCellWrapper = styled.div`
     `}
 `;
 
-export default TimeRow;
+export default ScheduleRowTime;

@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-function HeaderUserInfo({ id, nickname, thumbnail_image }) {
+function ScheduleHeaderUserInfo({ id, nickname, thumbnail_image }) {
   return (
     <UserInfoBlock>
       <div className="user-info">
@@ -34,4 +34,4 @@ const UserInfoBlock = styled.div`
   }
 `;
 
-export default HeaderUserInfo;
+export default ScheduleHeaderUserInfo;

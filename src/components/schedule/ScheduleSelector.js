@@ -1,22 +1,22 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import DateRow from "./DateRow";
-import TimeRow from "./TimeRow";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import ScheduleRowDate from './ScheduleRowDate';
+import ScheduleRowTime from './ScheduleRowTime';
 
-function WorkTimeSelector({ dates }) {
+function ScheduleSelector({ dates }) {
   return (
     <Wrapper>
       <Grid>
         <Row>
-          <DateRow />
-          <TimeRow />
+          <ScheduleRowDate />
+          <ScheduleRowTime />
         </Row>
         {dates.map((date, index) => {
           const { day } = date;
           return (
             <Row key={index} day={day}>
-              <DateRow thisDate={date} />
-              <TimeRow thisDate={date} />
+              <ScheduleRowDate thisDate={date} />
+              <ScheduleRowTime thisDate={date} />
             </Row>
           );
         })}
@@ -38,11 +38,11 @@ const Grid = styled.div`
 
 const Row = styled.div`
   display: flex;
-  ${(props) =>
-    props.day === "일" &&
+  ${props =>
+    props.day === '일' &&
     css`
       margin-bottom: 2rem;
     `}
 `;
 
-export default WorkTimeSelector;
+export default ScheduleSelector;

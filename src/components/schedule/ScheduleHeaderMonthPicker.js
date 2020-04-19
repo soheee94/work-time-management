@@ -1,21 +1,21 @@
-import React, { useState, useRef } from "react";
-import Picker from "react-month-picker";
-import "react-month-picker/css/month-picker.css";
-import { MdKeyboardArrowDown } from "react-icons/md";
-import styled from "styled-components";
+import React, { useState, useRef } from 'react';
+import Picker from 'react-month-picker';
+import 'react-month-picker/css/month-picker.css';
+import { MdKeyboardArrowDown } from 'react-icons/md';
+import styled from 'styled-components';
 
-function HeaderMonthPicker() {
+function ScheduleHeaderMonthPicker() {
   const today = new Date();
   const thisYear = today.getFullYear();
   const thisMonth = today.getMonth() + 1;
   const [value, setValue] = useState({
     year: thisYear,
-    month: thisMonth
+    month: thisMonth,
   });
   const { year, month } = value;
 
   const pickerLang = {
-    months: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+    months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
   };
 
   const onClickMonthBox = () => {
@@ -72,4 +72,4 @@ const MonthText = styled.div`
   }
 `;
 
-export default HeaderMonthPicker;
+export default ScheduleHeaderMonthPicker;
