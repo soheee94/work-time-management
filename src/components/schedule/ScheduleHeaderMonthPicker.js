@@ -1,19 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import Picker from 'react-month-picker';
 import 'react-month-picker/css/month-picker.css';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import styled from 'styled-components';
 
-function ScheduleHeaderMonthPicker() {
-  const today = new Date();
-  const thisYear = today.getFullYear();
-  const thisMonth = today.getMonth() + 1;
-  const [value, setValue] = useState({
-    year: thisYear,
-    month: thisMonth,
-  });
-  const { year, month } = value;
-
+function ScheduleHeaderMonthPicker({ year, month, handleMonthChange }) {
   const pickerLang = {
     months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
   };
@@ -22,18 +13,14 @@ function ScheduleHeaderMonthPicker() {
     pickAMonth.current.show();
   };
 
-  const handleAMonthDissmis = value => {
-    setValue(value);
-  };
-
   const pickAMonth = useRef(null);
   return (
     <Picker
       ref={pickAMonth}
-      years={[thisYear - 2, thisYear - 1, thisYear, thisYear + 1, thisYear + 2]}
-      value={value}
+      years={[year - 2, year - 1, year, year + 1, year + 2]}
+      value={{ year, month }}
       lang={pickerLang.months}
-      onDismiss={handleAMonthDissmis}
+      onDismiss={handleMonthChange}
     >
       <MonthText>
         <p>

@@ -1,54 +1,135 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 
-function ScheduleRowTime({ thisDate, worktime, vacationtime }) {
+function ScheduleRowTime({ thisDate, worktime, vacationtime, onSetWorktime }) {
   const [state, setState] = useState({
-    worktimeState: worktime,
+    worktimeState: worktime && worktime.length > 0 ? worktime : [],
     vacationtimeState: vacationtime,
   });
 
   const [selectionState, setSelectionState] = useState({
+    timeType: null,
     selectionType: null,
     selectionStart: '',
   });
 
   const { worktimeState, vacationtimeState } = state;
-  const { selectionType, selectionStart } = selectionState;
+  const { timeType, selectionType, selectionStart } = selectionState;
 
-  const startHandler = (time, disabled) => {
+  // onMouseDown 시작
+  const startHandler = (time, disabled, event) => {
     if (disabled) return;
-    const timeSelected = worktimeState.find(worktime => worktime === time);
+
+    // event.button : 0(왼쪽 마우스 클릭 - 근무시간 추가 수정), 2(오른쪽 마우스 클릭 - 휴가시간 추가 수정)
+    const type = event.button === 0 ? 'work' : 'vacation';
+
+    // workinghour의 제일 작은 값보다 작을 때, 큰 값보다 클 때
+    if (
+      type === 'vacation' &&
+      (Math.min(...worktimeState) > time || Math.max(...worktimeState) < time)
+    ) {
+      alert('근무시간의 시작과 끝에 휴가를 등록할 수 없습니다.');
+      return;
+    }
+
+    // 미리 선택되었는지 여부(있을 경우 '삭제', 없을 경우 '추가')
+    const timeSelected =
+      type === 'work'
+        ? worktimeState.find(worktime => worktime === time)
+        : vacationtimeState.find(vacationtime => vacationtime === time);
     setSelectionState({
-      ...state,
+      ...selectionState,
+      timeType: type,
       selectionType: timeSelected ? 'remove' : 'add',
       selectionStart: time,
     });
   };
 
+  // mouse enter, up event
   const updateAvailabilityDraft = (selectionEnd, disabled) => {
     if (selectionType === null || selectionStart === null || disabled) return;
+    // drag 요소
     const newDraft = range(selectionStart, selectionEnd);
     if (selectionType === 'add') {
-      console.log('add', selectionStart, selectionEnd, newDraft);
-      setState({
-        ...state,
-        worktimeState: worktimeState.concat(newDraft),
-      });
+      if (timeType === 'work') {
+        setState({
+          ...state,
+          worktimeState: worktimeState.concat(newDraft),
+        });
+      } else {
+        // 최대 1시간
+        if (vacationtimeState.length === 2) {
+          alert('더 이상 휴가를 등록할 수 없습니다.');
+          return false;
+        }
+        setState({
+          ...state,
+          vacationtimeState: vacationtimeState.concat(newDraft),
+        });
+      }
     } else if (selectionType === 'remove') {
-      console.log('remove', selectionStart, selectionEnd);
-      setState({
-        ...state,
-        worktimeState: worktimeState.filter(worktime => !newDraft.includes(worktime)),
-      });
+      if (timeType === 'work') {
+        setState({
+          ...state,
+          worktimeState: worktimeState.filter(worktime => !newDraft.includes(worktime)),
+        });
+      } else {
+        setState({
+          ...state,
+          vacationtimeState: vacationtimeState.filter(
+            vacationtime => !newDraft.includes(vacationtime)
+          ),
+        });
+      }
     }
   };
 
-  const endHandler = (time, disabled) => {
+  // onMouseUp
+  const endHandler = async (time, disabled) => {
     if (selectionType === null || selectionStart === null || disabled) return;
     updateAvailabilityDraft(time, disabled);
-    setSelectionState({ ...state, selectionStart: null, selectionType: null });
+    setSelectionState({ ...selectionState, selectionStart: null, selectionType: null });
+  };
 
-    // redux 저장 -> 중복 제거
+  useEffect(() => {
+    if (thisDate) {
+      onSetWorktime(thisDate.date, [...new Set(worktimeState)], [...new Set(vacationtimeState)]);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [worktimeState, vacationtimeState, selectionType]);
+
+  const RenderTimeCell = ({
+    thisDate,
+    worktimeState,
+    vacationtimeState,
+    startHandler,
+    updateAvailabilityDraft,
+    endHandler,
+  }) => {
+    const { day } = thisDate;
+    const cells = [];
+    // 시간은 0~24시간 30분 단위로 쪼갬 > 총 48
+    for (let index = 0; index < 48; index++) {
+      const disabled =
+        (index >= 0 && index < 12) || (index >= 44 && index <= 48) || day === '토' || day === '일';
+      cells.push(
+        <TimeCellWrapper
+          index={index}
+          key={index}
+          disabled={disabled}
+          onMouseDown={event => startHandler(index, disabled, event)}
+          onMouseEnter={() => updateAvailabilityDraft(index, disabled)}
+          onMouseUp={() => endHandler(index, disabled)}
+        >
+          <TimeCell
+            worktimeSelected={worktimeState.includes(index)}
+            vacationtimeSelected={vacationtimeState.includes(index)}
+          />
+        </TimeCellWrapper>
+      );
+    }
+    return cells;
   };
 
   if (!thisDate)
@@ -61,49 +142,17 @@ function ScheduleRowTime({ thisDate, worktime, vacationtime }) {
 
   return (
     <TimeRowBlock>
-      {renderTimeCell(
-        thisDate,
-        worktimeState,
-        vacationtimeState,
-        startHandler,
-        updateAvailabilityDraft,
-        endHandler
-      )}
+      <RenderTimeCell
+        thisDate={thisDate}
+        worktimeState={worktimeState}
+        vacationtimeState={vacationtimeState}
+        startHandler={startHandler}
+        updateAvailabilityDraft={updateAvailabilityDraft}
+        endHandler={endHandler}
+      />
     </TimeRowBlock>
   );
 }
-
-const renderTimeCell = (
-  thisDate,
-  worktimeState,
-  vacationtimeState,
-  startHandler,
-  updateAvailabilityDraft,
-  endHandler
-) => {
-  const { day } = thisDate;
-  const cells = [];
-  for (let index = 0; index < 48; index++) {
-    const disabled =
-      (index >= 0 && index < 12) || (index >= 44 && index <= 48) || day === '토' || day === '일';
-    cells.push(
-      <TimeCellWrapper
-        index={index}
-        key={index}
-        disabled={disabled}
-        onMouseDown={() => startHandler(index, disabled)}
-        onMouseEnter={() => updateAvailabilityDraft(index, disabled)}
-        onMouseUp={() => endHandler(index, disabled)}
-      >
-        <TimeCell
-          worktimeSelected={worktimeState.includes(index)}
-          vacationtimeSelected={vacationtimeState.includes(index)}
-        />
-      </TimeCellWrapper>
-    );
-  }
-  return cells;
-};
 
 function range(start, end) {
   if (start > end) {
@@ -134,10 +183,8 @@ const TimeRowBlock = styled.div`
   width: calc(100% - 400px);
   display: flex;
   justify-content: flex-end;
-  /* align-items: flex-end; */
   height: 4rem;
   padding-top: 0.5rem;
-  /* padding: 0 1.75rem; */
   font-size: 0.875rem;
 `;
 const TimeCell = styled.div`

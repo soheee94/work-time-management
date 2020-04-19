@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 function Checkbox({ date }) {
   return (
@@ -23,7 +23,7 @@ const CheckboxGroup = styled.div`
     width: 1rem;
     height: 1rem;
     &:before {
-      content: "";
+      content: '';
       -webkit-appearance: none;
       background-color: white;
       border: 1px solid lightgray;
@@ -37,7 +37,7 @@ const CheckboxGroup = styled.div`
   }
 
   input:checked + label:after {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     top: 0;

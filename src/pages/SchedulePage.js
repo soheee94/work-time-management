@@ -5,6 +5,7 @@ import { loginSuccess } from '../modules/auth';
 import styled from 'styled-components';
 import ScheduleInfoContainer from '../containers/schedule/ScheduleInfoContainer';
 import ScheduleSelectorContainer from '../containers/schedule/ScheduleSelectorContainer';
+import { getWorkTime } from '../modules/schedule';
 
 function SchedulePage({ history }) {
   const profile_session = JSON.parse(sessionStorage.getItem('profile'));
@@ -14,6 +15,9 @@ function SchedulePage({ history }) {
     history.push('/login');
   } else if (!profile_store) {
     dispatch(loginSuccess(profile_session));
+    return null;
+  } else {
+    dispatch(getWorkTime());
   }
 
   return (
