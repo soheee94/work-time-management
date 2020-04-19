@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../modules/auth";
 import styled from "styled-components";
 import WorkTimeInfoContainer from "../containers/WorkTimeInfoContainer";
+import WorkTimeTableContainer from "../containers/WorkTimeTableContainer";
 
 function WorkTimePage({ history }) {
   const profile_session = JSON.parse(sessionStorage.getItem("profile"));
@@ -19,6 +20,7 @@ function WorkTimePage({ history }) {
     <WorkTimePageTemplate>
       <WorkTimeHeaderContainer />
       <WorkTimeInfoContainer />
+      <WorkTimeTableContainer />
     </WorkTimePageTemplate>
   );
 }
@@ -26,7 +28,7 @@ function WorkTimePage({ history }) {
 const WorkTimePageTemplate = styled.div`
   width: 100%;
   padding: 2rem;
-  & > div {
+  & > div:not(:last-of-type) {
     padding: 1.75rem;
     display: flex;
     justify-content: space-between;
