@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import LoginContainer from "../containers/LoginContainer";
+import React from 'react';
+import styled from 'styled-components';
+import LoginContainer from '../containers/login/LoginContainer';
 
 function LoginPage({ history }) {
-  const profile = JSON.parse(sessionStorage.getItem("profile"));
+  const profile = JSON.parse(sessionStorage.getItem('profile'));
   if (profile !== null) {
-    history.push("/");
+    history.push('/');
   }
 
   return (
